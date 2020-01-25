@@ -8,9 +8,9 @@ import { calculateAlcohol } from '../../services/alcohol';
 
 export const Alcohol = () => {
   const intl = useIntl();
-  const [densityMoult, setDensityMoult] = useState(1000);
-  const [densityBeer, setDensityBeer] = useState(1000);
-  const [sugar, setSugar] = useState(0);
+  const [densityMoult, setDensityMoult] = useState(1050);
+  const [densityBeer, setDensityBeer] = useState(1010);
+  const [sugar, setSugar] = useState(5);
   const [alcohol, setAlcohol] = useState('0');
   const { t } = useTranslation();
 
@@ -32,27 +32,38 @@ export const Alcohol = () => {
         <Text>{t('alcohol.title')}</Text>
       </View>
       <View style={styles.line}>
-        <NumericInput
-          value={densityMoult}
-          onChange={setDensityMoult}
-          rounded
-          step={5}
-        />
+        <View style={styles.row}>
+          <Text>{t('alcohol.firstDensity')}</Text>
+          <NumericInput
+            value={densityMoult}
+            onChange={setDensityMoult}
+            rounded
+            step={5}
+          />
+        </View>
       </View>
       <View style={styles.line}>
-        <NumericInput
-          value={densityBeer}
-          onChange={setDensityBeer}
-          rounded
-          step={5}
-        />
+        <View style={styles.row}>
+          <Text>{t('alcohol.lastDensity')}</Text>
+          <NumericInput
+            value={densityBeer}
+            onChange={setDensityBeer}
+            rounded
+            step={5}
+          />
+        </View>
       </View>
       <View style={styles.line}>
-        <NumericInput value={sugar} onChange={setSugar} rounded step={1} />
-        <Text>g</Text>
+        <View style={styles.row}>
+          <Text>{t('alcohol.lastDensity')}</Text>
+          <View style={styles.line}>
+            <NumericInput value={sugar} onChange={setSugar} rounded step={1} />
+            <Text>g</Text>
+          </View>
+        </View>
       </View>
       <View style={styles.line}>
-        <Text>{t('alcohol.result', { alcohol })}</Text>
+        <Text style={styles.result}>{t('alcohol.result', { alcohol })}</Text>
       </View>
     </View>
   );
@@ -67,6 +78,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'column',
+  },
+  result: {
+    fontSize: 30,
   },
 });
 
