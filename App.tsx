@@ -1,17 +1,20 @@
-import React, {FC} from 'react';
-import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
+import React, { FC } from 'react';
+import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
+import { IntlProvider } from 'react-intl';
 
 import Alcohol from './views/Alcohol';
 import './config/i18n';
 
 const App: FC = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.container}>
-        <Alcohol />
-      </SafeAreaView>
-    </>
+    <IntlProvider locale="en">
+      <>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView style={styles.container}>
+          <Alcohol />
+        </SafeAreaView>
+      </>
+    </IntlProvider>
   );
 };
 

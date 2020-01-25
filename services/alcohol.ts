@@ -10,5 +10,5 @@ export const calculateAlcohol = (
   const alcoholMass = densityDiff * ALCOHOL_TRANSFORMATION;
   const alcohol = alcoholMass / lastDensity;
 
-  return (alcohol / ALCOHOL_DENSITY) * 100;
+  return alcohol / ALCOHOL_DENSITY;
 };

@@ -2,21 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import { useTranslation } from 'react-i18next';
+import { useIntl } from 'react-intl';
 
 import { calculateAlcohol } from '../../services/alcohol';
 
 export const Alcohol = () => {
+  const intl = useIntl();
   const [densityMoult, setDensityMoult] = useState(1000);
   const [densityBeer, setDensityBeer] = useState(1000);
   const [sugar, setSugar] = useState(0);
-  const [alcohol, setAlcohol] = useState(0);
+  const [alcohol, setAlcohol] = useState('0');
   const { t } = useTranslation();
 
   useEffect(() => {
     setAlcohol(
-      calculateAlcohol(densityMoult / 1000, densityBeer / 1000, sugar),
+      intl.formatNumber(
+        calculateAlcohol(densityMoult / 1000, densityBeer / 1000, sugar),
+        {
+          maximumFractionDigits: 1,
+          style: 'percent',
+        },
+      ),
     );
-  }, [densityBeer, densityMoult, sugar]);
+  }, [densityBeer, densityMoult, intl, sugar]);
 
   return (
     <View style={styles.container}>
