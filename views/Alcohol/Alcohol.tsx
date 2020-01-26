@@ -55,10 +55,17 @@ export const Alcohol = () => {
       </View>
       <View style={styles.line}>
         <View style={styles.row}>
-          <Text>{t('alcohol.lastDensity')}</Text>
+          <Text>{t('alcohol.sugar')}</Text>
           <View style={styles.line}>
-            <NumericInput value={sugar} onChange={setSugar} rounded step={1} />
-            <Text>g</Text>
+            <View style={styles.sugarInput}>
+              <NumericInput
+                value={sugar}
+                onChange={setSugar}
+                rounded
+                step={1}
+              />
+            </View>
+            <Text style={styles.sugarText}>{t('alcohol.gl')}</Text>
           </View>
         </View>
       </View>
@@ -81,6 +88,13 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'column',
+  },
+  sugarInput: { marginLeft: 40 },
+  sugarText: {
+    fontSize: 20,
+    marginTop: 30,
+    marginLeft: 10,
+    width: 30,
   },
   result: {
     fontSize: 30,
