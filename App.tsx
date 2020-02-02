@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import { IntlProvider } from 'react-intl';
 
-import Alcohol from './views/Alcohol';
 import './config/i18n';
+import Home from './views/Home';
 
 const App: FC = () => {
   return (
@@ -11,7 +11,7 @@ const App: FC = () => {
       <>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView style={styles.container}>
-          <Alcohol />
+          <Home />
         </SafeAreaView>
       </>
     </IntlProvider>

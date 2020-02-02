@@ -1,46 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import { useTranslation } from 'react-i18next';
 import { useIntl } from 'react-intl';
 
-import useBackup from '../../components/useBackup';
 import { calculateAlcohol } from '../../services/alcohol';
 
-export const Alcohol = () => {
+interface IAlcoholProps {
+  item: TItem;
+  onChange: (item: TItem) => void;
+}
+
+export const Alcohol: FC<IAlcoholProps> = ({ item, onChange }) => {
   const intl = useIntl();
-  const [firstDensity, setFirstDensity] = useBackup<number>(
-    'firstDensity',
-    1050,
-  );
-  const [lastDensity, setLastDensity] = useBackup<number>('lastDensity', 1010);
-  const [sugar, setSugar] = useBackup<number>('sugar', 5);
-  const [alcohol, setAlcohol] = useState('0');
+
   const { t } = useTranslation();
 
-  useEffect(() => {
-    setAlcohol(
-      intl.formatNumber(
-        calculateAlcohol(firstDensity / 1000, lastDensity / 1000, sugar),
-        {
-          maximumFractionDigits: 1,
-          style: 'percent',
-        },
-      ),
-    );
-  }, [lastDensity, firstDensity, intl, sugar]);
+  const alcohol = intl.formatNumber(
+    calculateAlcohol(
+      item.firstDensity / 1000,
+      item.lastDensity / 1000,
+      item.sugar,
+    ),
+    {
+      maximumFractionDigits: 1,
+      style: 'percent',
+    },
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.line}>
-        <Text>{t('alcohol.title')}</Text>
-      </View>
-      <View style={styles.line}>
         <View style={styles.row}>
           <Text>{t('alcohol.firstDensity')}</Text>
           <NumericInput
-            initValue={firstDensity}
-            onChange={setFirstDensity}
+            initValue={item.firstDensity}
+            onChange={value =>
+              onChange({
+                ...item,
+                firstDensity: value,
+              })
+            }
             rounded
             step={5}
           />
@@ -50,8 +50,13 @@ export const Alcohol = () => {
         <View style={styles.row}>
           <Text>{t('alcohol.lastDensity')}</Text>
           <NumericInput
-            initValue={lastDensity}
-            onChange={setLastDensity}
+            initValue={item.lastDensity}
+            onChange={value =>
+              onChange({
+                ...item,
+                lastDensity: value,
+              })
+            }
             rounded
             step={5}
           />
@@ -63,8 +68,13 @@ export const Alcohol = () => {
           <View style={styles.line}>
             <View style={styles.sugarInput}>
               <NumericInput
-                initValue={sugar}
-                onChange={setSugar}
+                initValue={item.sugar}
+                onChange={value =>
+                  onChange({
+                    ...item,
+                    sugar: value,
+                  })
+                }
                 rounded
                 step={1}
               />
@@ -84,6 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    padding: 50,
   },
   line: {
     flexDirection: 'row',
