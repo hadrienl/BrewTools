@@ -1,3 +1,3 @@
-import {Alcohol} from './Alcohol';
+import { Alcohol } from './Alcohol';
 
 export default Alcohol;
