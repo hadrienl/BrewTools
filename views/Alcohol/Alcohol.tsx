@@ -4,27 +4,31 @@ import NumericInput from 'react-native-numeric-input';
 import { useTranslation } from 'react-i18next';
 import { useIntl } from 'react-intl';
 
+import useBackup from '../../components/useBackup';
 import { calculateAlcohol } from '../../services/alcohol';
 
 export const Alcohol = () => {
   const intl = useIntl();
-  const [densityMoult, setDensityMoult] = useState(1050);
-  const [densityBeer, setDensityBeer] = useState(1010);
-  const [sugar, setSugar] = useState(5);
+  const [firstDensity, setFirstDensity] = useBackup<number>(
+    'firstDensity',
+    1050,
+  );
+  const [lastDensity, setLastDensity] = useBackup<number>('lastDensity', 1010);
+  const [sugar, setSugar] = useBackup<number>('sugar', 5);
   const [alcohol, setAlcohol] = useState('0');
   const { t } = useTranslation();
 
   useEffect(() => {
     setAlcohol(
       intl.formatNumber(
-        calculateAlcohol(densityMoult / 1000, densityBeer / 1000, sugar),
+        calculateAlcohol(firstDensity / 1000, lastDensity / 1000, sugar),
         {
           maximumFractionDigits: 1,
           style: 'percent',
         },
       ),
     );
-  }, [densityBeer, densityMoult, intl, sugar]);
+  }, [lastDensity, firstDensity, intl, sugar]);
 
   return (
     <View style={styles.container}>
@@ -35,8 +39,8 @@ export const Alcohol = () => {
         <View style={styles.row}>
           <Text>{t('alcohol.firstDensity')}</Text>
           <NumericInput
-            value={densityMoult}
-            onChange={setDensityMoult}
+            initValue={firstDensity}
+            onChange={setFirstDensity}
             rounded
             step={5}
           />
@@ -46,8 +50,8 @@ export const Alcohol = () => {
         <View style={styles.row}>
           <Text>{t('alcohol.lastDensity')}</Text>
           <NumericInput
-            value={densityBeer}
-            onChange={setDensityBeer}
+            initValue={lastDensity}
+            onChange={setLastDensity}
             rounded
             step={5}
           />
@@ -59,7 +63,7 @@ export const Alcohol = () => {
           <View style={styles.line}>
             <View style={styles.sugarInput}>
               <NumericInput
-                value={sugar}
+                initValue={sugar}
                 onChange={setSugar}
                 rounded
                 step={1}
